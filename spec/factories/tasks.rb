@@ -4,10 +4,12 @@ FactoryBot.define do
   factory :task do
     name { 'name_title1' }
     content { 'test_content1' }
+    # user { 'test_user1' }
   end
 
   factory :second_task, class: Task do
     name { 'name_title2' }
     content { 'test_content2' }
+    # user { 'test_user2' }
   end
 end
