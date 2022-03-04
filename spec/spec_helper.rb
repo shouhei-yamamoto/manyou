@@ -15,8 +15,11 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.before(:each, type: :system) do
-    driven_by :selenium_chrome_headless
+    driven_by(:selenium_chrome)
   end
+  # config.before(:each, type: :system) do
+  #   driven_by :selenium_chrome_headless
+  # end
 
   # config.before(:each) do |example|
   #   if example.metadata[:type] == :system

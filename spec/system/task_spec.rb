@@ -26,12 +26,12 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'task[content]',with: 'test_content'
       # 3. 「登録する」というvalue（表記文字）のあるボタンをクリックする
        # ここに「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書
-      find(".navbar-toggler-icon").click
-      click_on '登録する'
+      click_on 'Create Task'
       # 4. clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
       # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
       # ここにタスク詳細ページに、テストコードで作成したデータがタスク詳細画面にhave_contentされているか（含まれているか）を確認（期待）するコードを書く
-      expect(page).to have_content '確認しました'
+      expect(page).to have_content 'test_name'
+      expect(page).to have_content 'test_content'
       end
     end
   end
