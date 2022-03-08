@@ -39,7 +39,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it '新しいタスクが一番上に表示される' do
         task = FactoryBot.create(:task, name: 'name_title1', content: 'test_content1')
         visit tasks_path
-        task_test = all('.ta')
+        task_test = all('.task_list')
         expect(task_test[0]).to  have_content 'name_title1'
         expect(task_test[1]).to  have_content 'name_title2'
       end
