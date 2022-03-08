@@ -14,6 +14,7 @@
       <tr>
         <td class = "task_list"><%= task.name %></td>
         <td><%= task.content %></td>
+        <td><%= task.deadline %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -22,6 +23,8 @@
   </tbody>
 </table>
 
+<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
+
 <br>
 
-<%= link_to 'New Task', new_task_path %>
+<%= link_to '新規投稿', new_task_path %>
