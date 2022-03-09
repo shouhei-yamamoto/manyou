@@ -3,18 +3,16 @@
 <h1>Tasks</h1>
 
 <div class = "container-fluid">
-  <ul class="row">
-    <li class="search">タスク検索<%= form_with(model: Task.new, method: :get, local: true, url: tasks_path) do |form| %>
-      <%= form.text_field :name %>
-    </li>
-    
-    <li class="search">ステータス</li>
-    <li><%= form.select :status, [["未着手", "0"], ["進行中", "1"], ["完了", "2"]], include_blank: "選択して下さい" %></li>
+    <%= form_with(model: Task.new, method: :get, local: true, url: tasks_path) do |form| %>
+      <%= form.label :title, 'タスク検索' %>
+      <%= form.text_field :name, id: "textarea1" %>
+  
+      <%= form.label :title, 'ステータス' %>
+      <%= form.select :status, [["未着手", "0"], ["着手中", "1"], ["完了", "2"]], include_blank: "選択して下さい" %>
    
     <%= form.submit '検索', name: nil %>
     <%# form_withに対するend　%>
     <% end %>  
-  </ul>
 </div>
 
 <table>

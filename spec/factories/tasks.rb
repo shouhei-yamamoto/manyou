@@ -5,20 +5,20 @@ FactoryBot.define do
     name { 'name_title1' }
     content { 'test_content1' }
     deadline { DateTime.now }
-    # user { 'test_user1' }
+    status {'着手中'}
   end
 
   factory :second_task, class: Task do
     name { 'name_title2' }
     content { 'test_content2' }
     deadline { DateTime.now + 1 }
-    # user { 'test_user2' }
+    status {'未着手'}
   end
 
   factory :third_task, class: Task do
     name { 'name_title3' }
     content { 'test_content3' }
     deadline { DateTime.now + 5 }
-
+    status {'完了'}
   end    
 end

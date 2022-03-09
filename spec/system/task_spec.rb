@@ -1,17 +1,39 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
-  # テンプレートで作成したデータを上書きしたい時
-  # background do
-  #   FactoryBot.create(:task, name: 'test')
-  #   FactoryBot.create(:task, name: 'test2')
-  #   FactoryBot.create(:second_task, name: 'test3', content: 'test_content')
-  # end
-
   before do
-    # あらかじめタスク一覧のテストで使用するためのタスクを二つ作成する
     FactoryBot.create(:task)
     FactoryBot.create(:second_task)
     FactoryBot.create(:third_task)
+  end
+
+  describe '検索機能' do
+    # before do
+    #   # 必要に応じて、テストデータの内容を変更して構わない
+    #   FactoryBot.create(:task, name: "task")
+    #   FactoryBot.create(:second_task, name: "sample")
+    # end
+    context 'タイトルであいまい検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        # タスクの検索欄に検索ワードを入力する (例: task)
+        fill_in 'textarea1',with: 'test_name'
+        # 検索ボタンを押す
+        click_on '検索' 
+        expect(page).to have_content 'test_name'
+      end
+    end
+    
+  #   context 'ステータス検索をした場合' do
+  #     it "ステータスに完全一致するタスクが絞り込まれる" do
+  #       # ここに実装する
+  #       # プルダウンを選択する「select」について調べてみること
+  #     end
+  #   end
+  #   context 'タイトルのあいまい検索とステータス検索をした場合' do
+  #     it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+  #       # ここに実装する
+  #     end
+  #   end
   end
 
   describe '新規作成機能' do
@@ -27,6 +49,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         fill_in 'task[content]',with: 'test_content'
         #step3 タスクの終了期限の入力欄
         fill_in 'task[deadline]' ,with: '002022-03-15'
+        select '着手中', from: "task[status]"
         # 3. 「登録する」というvalue（表記文字）のあるボタンをクリックする
         # ここに「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書
         click_on '登録する'
@@ -65,10 +88,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
 
     context '終了期限でソートした場合' do
-      it 'タスクが終了期限順に並んでいる' do
-        # task = FactoryBot.create(:task, name: 'name_title1')
-        # task = FactoryBot.create(:second_task, name: 'name_title2') 
-        # task = FactoryBot.create(:third_task, name: 'name_title3')      
+      it 'タスクが終了期限順に並んでいる' do   
         visit tasks_path
         click_on '終了期限でソートする' 
         visit tasks_path(sort_expired: "true")
