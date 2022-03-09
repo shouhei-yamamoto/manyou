@@ -7,33 +7,38 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe '検索機能' do
-    # before do
-    #   # 必要に応じて、テストデータの内容を変更して構わない
-    #   FactoryBot.create(:task, name: "task")
-    #   FactoryBot.create(:second_task, name: "sample")
-    # end
     context 'タイトルであいまい検索をした場合' do
       it "検索キーワードを含むタスクで絞り込まれる" do
         visit tasks_path
         # タスクの検索欄に検索ワードを入力する (例: task)
-        fill_in 'textarea1',with: 'test_name'
+        # with以下はなんでもよいということでOK？
+        fill_in 'task[name]', with: 'name'
         # 検索ボタンを押す
         click_on '検索' 
-        expect(page).to have_content 'test_name'
+        # botでname_title1と指定しているからhave_content以下は同じ内容である必要？
+        # あいまい検索でwith以下の単語とbotで入力されたnameを比較？
+        expect(page).to have_content 'name_title'
       end
     end
     
-  #   context 'ステータス検索をした場合' do
-  #     it "ステータスに完全一致するタスクが絞り込まれる" do
-  #       # ここに実装する
-  #       # プルダウンを選択する「select」について調べてみること
-  #     end
-  #   end
-  #   context 'タイトルのあいまい検索とステータス検索をした場合' do
-  #     it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
-  #       # ここに実装する
-  #     end
-  #   end
+    context 'ステータス検索をした場合' do
+      it "ステータスに完全一致するタスクが絞り込まれる" do
+        visit tasks_path
+        # プルダウンを選択する「select」について調べてみること
+        select "着手中", from: "task_status"
+        click_on '検索'
+        expect(page).to have_content '着手中'
+      end
+    end
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
+      it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+        visit tasks_path
+        fill_in 'task[name]', with: 'name'
+        select "着手中", from: "task_status"
+        expect(page).to have_content 'name_title'
+        expect(page).to have_content '着手中'
+      end
+    end
   end
 
   describe '新規作成機能' do
@@ -45,7 +50,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         #「タスク名」というラベル名の入力欄と、「タスク詳細」というラベル名の入力欄にタスクのタイトルと内容をそれぞれ入力する
         # ここに「タスク名」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
         # ここに「タスク詳細」というラベル名の入力欄に内容をfill_in（入力）する処理を書く
-        fill_in 'task[name]',with: 'test_name'
+        fill_in 'task[name]',with: 'name_title'
         fill_in 'task[content]',with: 'test_content'
         #step3 タスクの終了期限の入力欄
         fill_in 'task[deadline]' ,with: '002022-03-15'
@@ -56,7 +61,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         # 4. clickで登録されたはずの情報が、タスク詳細ページに表示されているかを確認する
         # （タスクが登録されたらタスク詳細画面に遷移されるという前提）
         # ここにタスク詳細ページに、テストコードで作成したデータがタスク詳細画面にhave_contentされているか（含まれているか）を確認（期待）するコードを書く
-        expect(page).to have_content 'test_name'
+        expect(page).to have_content 'name_title'
         expect(page).to have_content 'test_content'
       end
     end

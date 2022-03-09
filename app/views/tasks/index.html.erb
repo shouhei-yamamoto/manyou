@@ -5,7 +5,7 @@
 <div class = "container-fluid">
     <%= form_with(model: Task.new, method: :get, local: true, url: tasks_path) do |form| %>
       <%= form.label :title, 'タスク検索' %>
-      <%= form.text_field :name, id: "textarea1" %>
+      <%= form.text_field :name %>
   
       <%= form.label :title, 'ステータス' %>
       <%= form.select :status, [["未着手", "0"], ["着手中", "1"], ["完了", "2"]], include_blank: "選択して下さい" %>
