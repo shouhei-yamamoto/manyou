@@ -22,8 +22,13 @@
     </div>
 
     <div class="field">
-      <%= form.label :deadline %>
+      <%= form.label :終了期限 %>
       <%= form.date_field :deadline %>
+    </div>
+
+    <div class="task_list">
+      <%= form.label :status %>
+      <%= form.select :status,[["未着手","未着手"],["着手中","着手中"],["完了","完了"]],include_blank: "今の状態は？"%>
     </div>
 
   <div class="actions">

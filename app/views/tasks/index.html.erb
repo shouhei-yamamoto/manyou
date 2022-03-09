@@ -2,6 +2,21 @@
 
 <h1>Tasks</h1>
 
+<div class = "container-fluid">
+  <ul class="row">
+    <li class="search">タスク検索<%= form_with(model: Task.new, method: :get, local: true, url: tasks_path) do |form| %>
+      <%= form.text_field :name %>
+    </li>
+    
+    <li class="search">ステータス</li>
+    <li><%= form.select :status, [["未着手", "0"], ["進行中", "1"], ["完了", "2"]], include_blank: "選択して下さい" %></li>
+   
+    <%= form.submit '検索', name: nil %>
+    <%# form_withに対するend　%>
+    <% end %>  
+  </ul>
+</div>
+
 <table>
   <thead>
     <tr>
@@ -15,6 +30,7 @@
         <td class = "task_list"><%= task.name %></td>
         <td><%= task.content %></td>
         <td><%= task.deadline %></td>
+        <td><%= task.status %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

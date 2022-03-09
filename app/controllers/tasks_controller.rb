@@ -8,6 +8,22 @@ class TasksController < ApplicationController
     else
       @tasks = Task.all.order(created_at: "desc")
     end  
+
+    if params[:task].present?
+      if params[:task][:name].present? && params[:task][:status].present?
+        #両方name and statusが成り立つ検索結果を返す
+        @tasks = @tasks.where('name LIKE ?', "%#{params[:task][:name]}%")
+        @tasks =@tasks.where(status: params[:task][:status])
+        
+        #渡されたパラメータがtask nameのみだったとき
+      elsif params[:task][:name].present?
+        @tasks = @tasks.where('name LIKE ?', "%#{params[:task][:name]}%")
+      
+       #渡されたパラメータがステータスのみだったとき
+      elsif params[:task][:status].present?
+        @tasks =@tasks.where(status: params[:task][:status])
+      end
+    end
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -69,6 +85,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :content, :deadline)
+      params.require(:task).permit(:name, :content, :deadline, :status)
     end
 end
