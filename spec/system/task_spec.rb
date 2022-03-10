@@ -55,6 +55,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         #step3 タスクの終了期限の入力欄
         fill_in 'task[deadline]' ,with: '002022-03-15'
         select '着手中', from: "task[status]"
+        select '中', from: "task[priority]"
         # 3. 「登録する」というvalue（表記文字）のあるボタンをクリックする
         # ここに「登録する」というvalue（表記文字）のあるボタンをclick_onする（クリックする）する処理を書
         click_on '登録する'

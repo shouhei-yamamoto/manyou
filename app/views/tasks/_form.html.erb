@@ -26,9 +26,14 @@
       <%= form.date_field :deadline %>
     </div>
 
-    <div class="task_list">
+    <div class="field">
       <%= form.label :status %>
       <%= form.select :status,[["未着手","未着手"],["着手中","着手中"],["完了","完了"]],include_blank: "今の状態は？"%>
+    </div>
+
+    <div class="field">
+      <% form.label :priority%>
+      <%= form.select :priority, Task.priorities.keys,include_blank: "優先順位は？"%>
     </div>
 
   <div class="actions">

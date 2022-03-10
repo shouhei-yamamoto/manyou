@@ -19,7 +19,7 @@ describe 'タスクモデル機能', type: :model do
     context 'タスクのタイトルと詳細に内容が記載されている場合' do
       it 'バリデーションが通る' do
         # ここに内容を記載する
-        task =Task.new(name: 'test_title', content: '成功テスト', deadline: '002022-03-15', status: '着手中')
+        task =Task.new(name: 'test_title', content: '成功テスト', deadline: '002022-03-15', status: '着手中',  priority: '高')
         expect(task).to be_valid
       end
     end
@@ -50,9 +50,9 @@ describe 'タスクモデル機能', type: :model do
     context 'scopeメソッドでタイトルのあいまい検索とステータス検索をした場合' do
       it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
         # ここに内容を記載する
-        expect(Task.name_search('test').search_status('着手中')).to include(task)
-        expect(Task.name_search('test').search_status('着手中')).not_to include(second_task)
-        expect(Task.name_search('terai').search_status('未着手').count).to eq 1
+        expect(Task.name_search('task').status_search('着手中')).to include(task)
+        expect(Task.name_search('test').status_search('着手中')).not_to include(second_task)
+        expect(Task.name_search('terai').status_search('未着手').count).to eq 0
       end
     end
   end

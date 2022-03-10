@@ -3,11 +3,21 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
+    # @tasks = Task.index(params[:index])
+    # @tasks = @tasks.page(params[:page])
+    # @tasks = Task.all.page(params[:page])
+    # @tasks = Task.page(params[:page]).per(10)
+    # @tasks = @tasks.page(params[:page]).per(5)
     if params[:sort_expired]
       @tasks = Task.all.order(deadline: "desc")
     else
       @tasks = Task.all.order(created_at: "desc")
     end  
+
+    if params[:sort_priority]
+      @tasks = Task.all
+      @tasks = @tasks.order(priority: "asc")
+    end
 
     if params[:task].present?
       if params[:task][:name].present? && params[:task][:status].present?
@@ -24,6 +34,7 @@ class TasksController < ApplicationController
         @tasks =@tasks.where(status: params[:task][:status])
       end
     end
+    @tasks = @tasks.page(params[:page]).per(10)
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -85,6 +96,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :content, :deadline, :status)
+      params.require(:task).permit(:name, :content, :deadline, :status, :priority)
     end
 end
