@@ -4,12 +4,24 @@ FactoryBot.define do
   factory :task do
     name { 'name_title1' }
     content { 'test_content1' }
-    # user { 'test_user1' }
+    deadline { DateTime.now }
+    status {'着手中'}
+    priority {'高'}
   end
 
   factory :second_task, class: Task do
     name { 'name_title2' }
     content { 'test_content2' }
-    # user { 'test_user2' }
+    deadline { DateTime.now + 1 }
+    status {'未着手'}
+    priority {'中'}
   end
+
+  factory :third_task, class: Task do
+    name { 'name_title3' }
+    content { 'test_content3' }
+    deadline { DateTime.now + 5 }
+    status {'完了'}
+    priority {'低'}
+  end    
 end
