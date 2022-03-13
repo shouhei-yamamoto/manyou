@@ -6,6 +6,24 @@ class User < ApplicationRecord
   
   has_secure_password
   validates :password, length: { minimum: 6 }
+
+  
+  before_destroy :destroy_action
+  before_update :update_action
  
   has_many :tasks
+
+  private
+  def destroy_action
+    if User.where(admin:true).count == 1 && self.admin
+      throw :abort
+    end
+  end
+
+  def update_action
+    @admin_users = User.where(admin: true)
+      if(@admin_users.count == 1 && @admin_users.first == self) && self.admin == false
+        throw.abort
+      end
+  end
 end
