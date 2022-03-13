@@ -1,10 +1,21 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
   before do
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
-    FactoryBot.create(:third_task)
+    visit new_session_path
+    fill_in :session_email,with: 'admin1@example.jp'
+    fill_in :session_password,with: '11111111'
+    click_on'Log in'
+    @admin_user = FactoryBot.create(:admin_user)
+    FactoryBot.create(:task,user_id: @admin_user.id)
+    FactoryBot.create(:second_task,user_id: @admin_user.id)
+    FactoryBot.create(:third_task,user_id: @admin_user.id)
+    # FactoryBot.create(:task)
+    # FactoryBot.create(:second_task)
+    # FactoryBot.create(:third_task)
+    # visit tasks_path
   end
+
+  #ここから下はいじらない・・はず
 
   describe '検索機能' do
     context 'タイトルであいまい検索をした場合' do
