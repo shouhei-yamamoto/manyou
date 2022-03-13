@@ -2,24 +2,25 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :destroy, :update]
   before_action :require_admin
 
-  # def new
-  #   # binding.pry
-  #   @user = User.new
+  def new
+    # binding.pry
+    @user = User.new
    
-  # end
+  end
 
-  # def create
-  #   # binding.pry
-  #   @user = User.new(user_params)
-  #   if @user.save
-  #     redirect_to admin_users_path, notice: "ユーザー「#{@user.name}」を登録しました。"
-  #   else
-  #     render :new
-  #   end
-  # end
+  def create
+    # binding.pry
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to admin_users_path, notice: "ユーザー「#{@user.name}」を登録しました。"
+    else
+      render :new
+    end
+  end
 
   def edit
-    @user = User.find(user_params[:id])
+    @tasks = @user.tasks.all
+    @tasks = @tasks.page(params[:page]).per(5)
   end
 
   def update
@@ -32,7 +33,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(user_params[:id])
+    # binding.irb
+    # 下のコマンドだとuser paramが空というエラーでる。多分taskを指定してなかったからかも
+    # @user = User.find(user_params[:id])
+    @tasks = @user.tasks.all
+    @tasks = @tasks.page(params[:page]).per(5)
   end
 
   def index
@@ -50,7 +55,7 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)  
+    params.require(:user).permit(:name, :email, :admin, :password)  
   end
 
   def require_admin

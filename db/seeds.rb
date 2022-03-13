@@ -9,15 +9,14 @@
 1.times do |n|
   name = Faker::Games::Pokemon.name
   email = Faker::Internet.email
-  password_digest = "password"
+  password = "password"
   User.create!(name: name,
                email: email,
-               password_digest: password_digest,
+               password: password,
                )
 end
 
-User.create!(name:  管理者,
-  email: admin1@example.jp,
-  password: 11111111,
-  password_confirmation: 11111111,
-  admin: true)
+User.create!(name: "管理者",
+  email: "admin1@example.jp",
+  password: "11111111",
+  admin: "true")
