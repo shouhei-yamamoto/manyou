@@ -1,16 +1,14 @@
 FactoryBot.define do
-  
-  factory :admin_user,class: User do
-    name { "admin_test" }
-    email { "admin1@example.com" }
-    password { "11111111" }
-    admin{true}
+  factory :user do
+    name { "やま" }
+    email { "yama@gmail.com" }
+    password { "12345678" }
+    admin { "true" }
   end
-
-  factory :normal_user,class: User do
-    name {'user_test'}
-    email{'test2@mail.com'}
-    password{'test2@mail.com'}
-    admin{false}
+  factory :user_second,class: User do
+    name { "たかはし" }
+    email { "bbb@gmail.com" }
+    password { "123456" }
+    admin { "false" }
   end
 end
