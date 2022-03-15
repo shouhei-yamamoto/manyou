@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
+  # skip_before_action :login_required, only: [:new, :create]
 
   # GET /tasks or /tasks.json
   def index
@@ -9,9 +10,9 @@ class TasksController < ApplicationController
     # @tasks = Task.page(params[:page]).per(10)
     # @tasks = @tasks.page(params[:page]).per(5)
     if params[:sort_expired]
-      @tasks = Task.all.order(deadline: "desc")
+      @tasks = current_user.tasks.order(deadline: "desc")
     else
-      @tasks = Task.all.order(created_at: "desc")
+      @tasks = current_user.tasks.order(created_at: "desc")
     end  
 
     if params[:sort_priority]
@@ -52,7 +53,7 @@ class TasksController < ApplicationController
 
   # POST /tasks or /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.new(task_params)
 
     respond_to do |format|
       if @task.save
@@ -91,7 +92,7 @@ class TasksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params[:id])
+      @task = current_user.tasks.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

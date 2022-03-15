@@ -1,27 +1,23 @@
 FactoryBot.define do
-  # 作成するテストデータの名前を「task」とします
-  # （実際に存在するクラス名と一致するテストデータの名前をつければ、そのクラスのテストデータを自動で作成します
   factory :task do
-    name { 'name_title1' }
-    content { 'test_content1' }
-    deadline { DateTime.now }
-    status {'着手中'}
-    priority {'高'}
+    name {"test_name"}
+    content {"test_content"}
+    deadline { Time.now }
+    status {"未着手"}
+    priority {"高"}
   end
-
-  factory :second_task, class: Task do
-    name { 'name_title2' }
-    content { 'test_content2' }
-    deadline { DateTime.now + 1 }
-    status {'未着手'}
-    priority {'中'}
+  factory :task_second,class: Task do
+    name {"今日"}
+    content {"いい天気"}
+    deadline { Time.now.since(3.days) }
+    status {"着手中"}
+    priority {"中"}
   end
-
-  factory :third_task, class: Task do
-    name { 'name_title3' }
-    content { 'test_content3' }
-    deadline { DateTime.now + 5 }
-    status {'完了'}
-    priority {'低'}
-  end    
+  factory :task_third,class: Task do
+    name {"課題"}
+    content {"終わらせたい"}
+    deadline { Time.now.since(2.days) }
+    status {"着手中"}
+    priority {"低"}
+  end
 end
