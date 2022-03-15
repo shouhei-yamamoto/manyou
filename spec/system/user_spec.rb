@@ -97,27 +97,27 @@ RSpec.describe 'ユーザ登録・ログイン・ログアウト機能・管理�
 
     context "管理者でログインしている場合" do
       before do
-        # FactoryBot.create(:second_user)
+        FactoryBot.create(:admin_user)
         visit new_session_path
-        fill_in "session_email", with: "admin1@example.jp"
-        fill_in "session_password", with: "11111111"
-        click_on "Log in"   
+        fill_in "session_email", with: "admin2@example.com"
+        fill_in "session_password", with: "22222222"
+        click_on "Log in" 
         visit admin_users_path_index_path
       end
 
       it "管理者はユーザ新規登録ができる" do
-        click_on "create_user"
+        click_on "新規ユーザー作成"
         fill_in "user_name", with: "みうら"
         fill_in "user_email", with: "miura@example.com"
         fill_in "user_password", with: "2345678"
-        click_on "登録する"
+        click_on "登録"
         expect(page).to have_content "みうら"       
       end
 
       it "管理者はユーザの詳細画面へ行ける" do
         @user = FactoryBot.create(:user)
         visit admin_user_path(id: @user.id)
-        expect(page).to have_content "" 
+        # expect(page).to have_content "" 
       end
       
       it "管理者ユーザーの編集画面からユーザーの編集ができる" do
@@ -133,7 +133,7 @@ RSpec.describe 'ユーザ登録・ログイン・ログアウト機能・管理�
       it "管理者はユーザーを削除できる" do
         @user = FactoryBot.create(:user)
         visit admin_users_path_index_path
-        click_on "Delete", match: :first
+        click_on "Delete",match: :first
       end
     end
   end
