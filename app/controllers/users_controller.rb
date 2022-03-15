@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @tasks = @user.tasks
     unless @user == current_user
       redirect_to tasks_path, notice: '他人のページへアクセスはできません'
     end
