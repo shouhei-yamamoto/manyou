@@ -11,7 +11,7 @@ class User < ApplicationRecord
   before_destroy :destroy_action
   before_update :update_action
  
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
 
   private
   def destroy_action
