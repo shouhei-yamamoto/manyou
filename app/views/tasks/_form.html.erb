@@ -12,29 +12,34 @@
   <% end %>
 
   <div class="field">
-      <%= form.label :タスク名 %>
-      <%= form.text_field :name %>
-    </div>
+    <%= form.label :タスク名 %>
+    <%= form.text_field :name %>
+  </div>
 
-    <div class="field">
-      <%= form.label :コンテント %>
-      <%= form.text_field :content %>
-    </div>
+  <div class="field">
+    <%= form.label :コンテント %>
+    <%= form.text_field :content %>
+  </div>
 
-    <div class="field">
-      <%= form.label :終了期限 %>
-      <%= form.date_field :deadline %>
-    </div>
+  <div class="field">
+    <%= form.label :終了期限 %>
+    <%= form.date_field :deadline %>
+  </div>
 
-    <div class="field">
-      <%= form.label :status %>
-      <%= form.select :status,[["未着手","未着手"],["着手中","着手中"],["完了","完了"]],include_blank: "今の状態は？"%>
-    </div>
+  <div class="field">
+    <%= form.label :状態 %>
+    <%= form.select :status,[["未着手","未着手"],["着手中","着手中"],["完了","完了"]],include_blank: "今の状態は？"%>
+  </div>
 
-    <div class="field">
-      <% form.label :priority%>
-      <%= form.select :priority, Task.priorities.keys,include_blank: "優先順位は？"%>
-    </div>
+  <div class="field">
+    <% form.label :優先順位%>
+    <%= form.select :priority, Task.priorities.keys,include_blank: "優先順位は？"%>
+  </div>
+
+  <div class="field">
+    <%= form.label :ラベル %>
+    <%= form.collection_check_boxes(:label_ids, Label.all, :id, :name) %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>

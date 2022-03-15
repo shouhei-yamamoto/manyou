@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :labels
   get "/admin/users", to: 'admin/users#index', as: :admin_users_path_index
   namespace :admin do
     resources :users
