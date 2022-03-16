@@ -4,6 +4,7 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
+    
     # @tasks = Task.all
     # @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
     if params[:sort_expired]
@@ -30,12 +31,19 @@ class TasksController < ApplicationController
        #渡されたパラメータがステータスのみだったとき
       elsif params[:task][:status].present?
         @tasks =@tasks.where(status: params[:task][:status])
-
-      #渡されたパラメータがラベルのみだったとき
-      elsif params[:task][:label_id].present?
-        @labeling = Labeling.where(label_id: params[:task][:label_id])
-        @tasks = @tasks.where(id: @labeling) 
       end
+    end
+
+    #渡されたパラメータがラベルのみだったとき
+    #
+    if params[:label_id].present?
+      @tasks = Task.all
+      @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] })
+      # 途中、後日検証　@tasksと@lavelling連結方法。それぞれ取得はできている
+      # @labelling = Labelling.where(label_id: params[:label_id])
+      # @tasks = Task.all
+      # binding.pry
+      # @tasks = @tasks.joins(:labels).where(id: @labelling) 
     end
     @tasks = @tasks.page(params[:page]).per(10)
   end
