@@ -4,11 +4,9 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    # @tasks = Task.index(params[:index])
-    # @tasks = @tasks.page(params[:page])
-    # @tasks = Task.all.page(params[:page])
-    # @tasks = Task.page(params[:page]).per(10)
-    # @tasks = @tasks.page(params[:page]).per(5)
+    
+    # @tasks = Task.all
+    # @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) if params[:label_id].present?
     if params[:sort_expired]
       @tasks = current_user.tasks.order(deadline: "desc")
     else
@@ -34,6 +32,18 @@ class TasksController < ApplicationController
       elsif params[:task][:status].present?
         @tasks =@tasks.where(status: params[:task][:status])
       end
+    end
+
+    #渡されたパラメータがラベルのみだったとき
+    #
+    if params[:label_id].present?
+      @tasks = Task.all
+      @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] })
+      # 途中、後日検証　@tasksと@lavelling連結方法。それぞれ取得はできている
+      # @labelling = Labelling.where(label_id: params[:label_id])
+      # @tasks = Task.all
+      # binding.pry
+      # @tasks = @tasks.joins(:labels).where(id: @labelling) 
     end
     @tasks = @tasks.page(params[:page]).per(10)
   end
@@ -97,6 +107,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :content, :deadline, :status, :priority)
+      params.require(:task).permit(:name, :content, :deadline, :status, :priority, { label_ids: [] })
     end
 end
